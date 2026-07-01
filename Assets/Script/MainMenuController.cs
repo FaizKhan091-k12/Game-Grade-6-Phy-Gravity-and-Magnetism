@@ -7,11 +7,15 @@ using UnityEngine.UI.ProceduralImage;
 public class MainMenuController : MonoBehaviour
 {
     public bool isTesting;
+    public SolarSystemCameraController solarSystemCameraController;
     [Header("Sound")]
     [SerializeField] private bool isMute;
     [SerializeField] private Transform soundOn;
     [SerializeField] private Transform soundOff;
     [SerializeField] private TextMeshProUGUI soundText;
+        [SerializeField] private Transform soundOn1;
+        [SerializeField] private Transform soundOff1;
+        [SerializeField] private TextMeshProUGUI soundText1;
 
     [Header("Mission Intro")]
     [SerializeField] private ProceduralImage black_Screen;
@@ -36,13 +40,25 @@ across different planets.";
     [SerializeField] AudioSource deepSpaceBG;
     [SerializeField] private AudioSource typingAudioSource;
     [SerializeField] private AudioClip keyboardTypingClip;
+    [SerializeField] private AudioClip heavyDropClip;
 
     [SerializeField] private float typingSoundInterval = 0.06f;
 
     private float lastTypingSoundTime;
+
+    [Header("Solar System")] [SerializeField]
+    private Transform mainMenuScene,solarSystemScene;
+
+    [SerializeField] private Animation camera_Rig;
     private void Start()
     {
         if (isTesting) return;
+
+
+        mainMenuScene.localScale = Vector3.one;
+        solarSystemScene.gameObject.SetActive(false);
+        
+        
         // Sound
         soundOff.localScale = Vector3.zero;
         soundOn.localScale = Vector3.zero;
@@ -74,7 +90,10 @@ across different planets.";
         {
             soundOff.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack);
             soundOn.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack);
-            soundText.text = "Sound OFF";
+            soundText.text = "Sound OFF";  
+            soundOff1.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack);
+            soundOn1.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack);
+            soundText1.text = "Sound OFF";
             deepSpaceBG.volume = 0;
         }
         else
@@ -82,6 +101,9 @@ across different planets.";
             soundOn.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack);
             soundOff.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack);
             soundText.text = "Sound ON";
+            soundOn1.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack);
+            soundOff1.DOScale(Vector3.zero, 0.25f).SetEase(Ease.InBack);
+            soundText1.text = "Sound ON";
             deepSpaceBG.volume = 1;
         }
     }
@@ -106,6 +128,7 @@ across different planets.";
         // Fade black screen
         seq.Append(black_Screen.DOFade(1f, 1.5f).OnComplete((() =>
         {
+            typingAudioSource.PlayOneShot(heavyDropClip);
             missionBlack_Strip.gameObject.SetActive(true);
         })));
       
@@ -222,5 +245,28 @@ across different planets.";
         typingAudioSource.pitch = Random.Range(0.95f, 1.05f);
         typingAudioSource.PlayOneShot(keyboardTypingClip, 0.35f);
     }
+
+
+    public void ContinueButtonClick()
+    {
+        mainMenuScene.localScale = Vector3.zero;
+        solarSystemScene.gameObject.SetActive(true);
+        deepSpaceBG.DOFade(1f, 5f);
+        Invoke(nameof(MenuDeactivate), 1f);
+    }
+
+    void MenuDeactivate()
+    {
+        mainMenuScene.gameObject.SetActive(false);
+        camera_Rig.Play();
+        Invoke(nameof(ControlCamera), 10f);
+    }
+
+    void ControlCamera()
+    {
+        solarSystemCameraController.enabled = true;
+    }
+    
+    
     #endregion
 }
