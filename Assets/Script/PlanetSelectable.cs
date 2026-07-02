@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class PlanetSelectable : MonoBehaviour
 {
+    [Header("Planet Info")]
+    [SerializeField] private PlanetInfoData info;
+    public PlanetInfoData Info => info;
     [Header("References")]
     [SerializeField] private GameObject outline;
     [SerializeField] private Transform focusPoint;
@@ -56,7 +59,13 @@ public class PlanetSelectable : MonoBehaviour
             planetDummy.localScale = Vector3.zero;
         }
 
-        cameraController.FocusPlanet(focusPoint, planetDummy);
+        cameraController.FocusPlanet(
+            focusPoint,
+            planetDummy,
+            () =>
+            {
+                PlanetSelectionManager.Instance.OnPlanetShown();
+            });
 
         RefreshVisual();
     }
@@ -67,8 +76,15 @@ public class PlanetSelectable : MonoBehaviour
 
         if (planetDummy != null)
         {
-            planetDummy.gameObject.SetActive(false);
-            planetDummy.localScale = Vector3.zero;
+            planetDummy.DOKill();
+
+            planetDummy
+                .DOScale(Vector3.zero, 0.35f)
+                .SetEase(Ease.InBack)
+                .OnComplete(() =>
+                {
+                    planetDummy.gameObject.SetActive(false);
+                });
         }
 
         RefreshVisual();
@@ -87,6 +103,27 @@ public class PlanetSelectable : MonoBehaviour
         planet.DOScale(targetScale, 0.2f)
             .SetEase(Ease.OutQuad);
     }
+    public void ShowPlanetOnly()
+    {
+        isSelected = true;
 
+        if (planetDummy == null)
+            return;
+
+        planetDummy.gameObject.SetActive(true);
+        planetDummy.localScale = Vector3.zero;
+
+        planetDummy.DOKill();
+
+        planetDummy
+            .DOScale(Vector3.one, 0.5f)
+            .SetEase(Ease.OutBack)
+            .OnComplete(() =>
+            {
+                PlanetSelectionManager.Instance.OnPlanetShown();
+            });
+
+        RefreshVisual();
+    }
     public bool IsSelected => isSelected;
 }

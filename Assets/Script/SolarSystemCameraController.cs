@@ -102,7 +102,7 @@ public class SolarSystemCameraController : MonoBehaviour
         canControl = value;
     }
 
-    public void FocusPlanet(Transform focusPoint, Transform planetDummy)
+    public void FocusPlanet(Transform focusPoint, Transform planetDummy, System.Action onComplete)
     {
         canControl = false;
 
@@ -126,17 +126,15 @@ public class SolarSystemCameraController : MonoBehaviour
         seq.AppendInterval(0.15f);
 
         seq.Append(
-            planetDummy.DOScale(
-                Vector3.one,
-                0.8f)
+            planetDummy.DOScale(Vector3.one, 0.8f)
                 .SetEase(Ease.OutBack));
 
         seq.OnComplete(() =>
         {
-            // VERY IMPORTANT
             SyncState();
-
             canControl = true;
+
+            onComplete?.Invoke();
         });
     }
 
