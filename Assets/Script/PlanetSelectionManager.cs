@@ -61,6 +61,12 @@ public class PlanetSelectionManager : MonoBehaviour
         if (planet == currentPlanet)
             return;
 
+        // Hide current panel immediately
+        if (planetInfoPanel != null)
+            planetInfoPanel.Hide();
+
+        HideUI();
+
         if (currentPlanet != null)
             currentPlanet.Deselect();
 
@@ -78,11 +84,7 @@ public class PlanetSelectionManager : MonoBehaviour
 
     public void OnPlanetShown()
     {
-        Debug.Log("Planet Shown");
-
-        Debug.Log("Current Planet : " + currentPlanet);
-
-        Debug.Log("Planet Info Panel : " + planetInfoPanel);
+       
 
         if (currentPlanet == null)
             return;
@@ -197,7 +199,7 @@ public class PlanetSelectionManager : MonoBehaviour
                 .SetEase(Ease.InBack)
                 .OnComplete(() =>
                 {
-                    planetInfoPanel.gameObject.SetActive(false);
+                    planetInfoPanel.Hide();
                 });
         }
 

@@ -1,6 +1,6 @@
 using TMPro;
 using UnityEngine;
-
+using DG.Tweening;
 public class PlanetInfoPanel : MonoBehaviour
 {
     [Header("Panel")]
@@ -35,5 +35,19 @@ public class PlanetInfoPanel : MonoBehaviour
         lengthOfDay.text = data.lengthOfDay;
         orbitalPeriod.text = data.orbitalPeriod;
         funFact.text = data.funFact;
+    }
+    public void Hide()
+    {
+        RectTransform panel = GetComponent<RectTransform>();
+
+        panel.DOKill();
+
+        panel
+            .DOLocalRotate(new Vector3(0, -90, 0), .25f)
+            .SetEase(Ease.InBack)
+            .OnComplete(() =>
+            {
+                gameObject.SetActive(false);
+            });
     }
 }
