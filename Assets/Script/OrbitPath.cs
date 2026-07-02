@@ -1,43 +1,77 @@
 using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
 public class OrbitPath : MonoBehaviour
 {
-    public Material lineMaterial;
-
+    [Header("Orbit")]
     [Min(0.1f)]
     public float radius = 5f;
 
-    [Range(16,256)]
+    [Range(32, 256)]
     public int segments = 128;
 
-    public Color orbitColor = new Color(1,1,1,0.25f);
+    [Header("Appearance")]
+    public float lineWidth = 0.03f;
+    public Color orbitColor = new Color(1f, 1f, 1f, 0.25f);
 
-    private void OnRenderObject()
+    private LineRenderer lr;
+
+    private void Awake()
     {
-        if (lineMaterial == null)
+        lr = GetComponent<LineRenderer>();
+
+        lr.useWorldSpace = false;
+        lr.loop = true;
+
+        lr.positionCount = segments;
+
+        lr.startWidth = lineWidth;
+        lr.endWidth = lineWidth;
+
+        lr.startColor = orbitColor;
+        lr.endColor = orbitColor;
+
+        GenerateOrbit();
+    }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (lr == null)
+            lr = GetComponent<LineRenderer>();
+
+        if (lr == null)
             return;
 
-        lineMaterial.SetPass(0);
+        lr.useWorldSpace = false;
+        lr.loop = true;
 
-        GL.PushMatrix();
+        lr.positionCount = segments;
+        lr.startWidth = lineWidth;
+        lr.endWidth = lineWidth;
 
-        GL.MultMatrix(transform.localToWorldMatrix);
+        lr.startColor = orbitColor;
+        lr.endColor = orbitColor;
 
-        GL.Begin(GL.LINE_STRIP);
-        GL.Color(orbitColor);
+        GenerateOrbit();
+    }
+#endif
 
-        for (int i = 0; i <= segments; i++)
+    private void GenerateOrbit()
+    {
+        if (lr == null)
+            return;
+
+        for (int i = 0; i < segments; i++)
         {
             float angle = i * Mathf.PI * 2f / segments;
 
-            float x = Mathf.Cos(angle) * radius;
-            float z = Mathf.Sin(angle) * radius;
+            Vector3 point = new Vector3(
+                Mathf.Cos(angle) * radius,
+                0f,
+                Mathf.Sin(angle) * radius);
 
-            GL.Vertex3(x, 0, z);
+            lr.SetPosition(i, point);
         }
-
-        GL.End();
-
-        GL.PopMatrix();
     }
 }

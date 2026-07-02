@@ -25,30 +25,18 @@ public class SolarSystemCameraController : MonoBehaviour
     [Header("State")]
     public bool canControl = true;
 
-    float yaw;
-    float pitch;
+    private float yaw;
+    private float pitch;
 
-    float targetZoom;
-    float currentZoom;
+    private float targetZoom;
+    private float currentZoom;
 
-    Quaternion targetYawRotation;
-    Quaternion targetPitchRotation;
-
-    bool dragging;
+    private Quaternion targetYawRotation;
+    private Quaternion targetPitchRotation;
 
     void Start()
     {
-        // Store whatever rotation you already set in Unity
-        yaw = yawPivot.localEulerAngles.y;
-
-        pitch = pitchPivot.localEulerAngles.x;
-        if (pitch > 180f)
-            pitch -= 360f;
-
-        targetYawRotation = yawPivot.localRotation;
-        targetPitchRotation = pitchPivot.localRotation;
-
-        currentZoom = targetZoom = -cam.transform.localPosition.z;
+        SyncState();
     }
 
     void Update()
@@ -63,12 +51,13 @@ public class SolarSystemCameraController : MonoBehaviour
 
     void HandleInput()
     {
-        dragging = Input.GetMouseButton(0);
-
-        if (dragging)
+        if (Input.GetMouseButton(0))
         {
             yaw += Input.GetAxis("Mouse X") * rotationSpeed;
+
+            // Invert if desired:
             pitch += Input.GetAxis("Mouse Y") * rotationSpeed;
+
             pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
             targetYawRotation = Quaternion.Euler(0f, yaw, 0f);
@@ -104,9 +93,9 @@ public class SolarSystemCameraController : MonoBehaviour
         cam.transform.localPosition = pos;
     }
 
-    //----------------------------------------------------
-    // PUBLIC API
-    //----------------------------------------------------
+    //========================================================
+    // PUBLIC
+    //========================================================
 
     public void EnableControl(bool value)
     {
@@ -117,39 +106,55 @@ public class SolarSystemCameraController : MonoBehaviour
     {
         canControl = false;
 
-        planetDummy.localScale = Vector3.zero;
         planetDummy.gameObject.SetActive(true);
+        planetDummy.localScale = Vector3.zero;
 
         Sequence seq = DOTween.Sequence();
 
-        // Travel camera
         seq.Append(
             yawPivot.DOMove(
                 focusPoint.position,
-                2f
-            ).SetEase(Ease.InOutSine));
+                2f)
+                .SetEase(Ease.InOutSine));
 
         seq.Join(
             yawPivot.DORotate(
                 focusPoint.rotation.eulerAngles,
-                2f
-            ).SetEase(Ease.InOutSine));
+                2f)
+                .SetEase(Ease.InOutSine));
 
-        // Wait a moment
         seq.AppendInterval(0.15f);
 
-        // Planet grows in front of camera
         seq.Append(
             planetDummy.DOScale(
                 Vector3.one,
-                0.8f
-            ).SetEase(Ease.OutBack));
+                0.8f)
+                .SetEase(Ease.OutBack));
 
         seq.OnComplete(() =>
         {
-            canControl = true;
+            // VERY IMPORTANT
+            SyncState();
 
-            // Later you'll fade and load gameplay here.
+            canControl = true;
         });
+    }
+
+    //========================================================
+    // Sync internal controller state with actual transforms
+    //========================================================
+
+    private void SyncState()
+    {
+        yaw = yawPivot.localEulerAngles.y;
+
+        pitch = pitchPivot.localEulerAngles.x;
+        if (pitch > 180f)
+            pitch -= 360f;
+
+        targetYawRotation = yawPivot.localRotation;
+        targetPitchRotation = pitchPivot.localRotation;
+
+        currentZoom = targetZoom = -cam.transform.localPosition.z;
     }
 }
