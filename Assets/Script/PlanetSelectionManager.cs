@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,8 +49,8 @@ public class PlanetSelectionManager : MonoBehaviour
 
         HideUIInstant();
 
-        if (planetInfoPanel != null)
-            planetInfoPanel.gameObject.SetActive(false);
+        // if (planetInfoPanel != null)
+        //     planetInfoPanel.gameObject.SetActive(false);
     }
 
     //-------------------------------------------------------
@@ -63,7 +64,10 @@ public class PlanetSelectionManager : MonoBehaviour
 
         // Hide current panel immediately
         if (planetInfoPanel != null)
-            planetInfoPanel.Hide();
+        {
+            planetInfoPanel.transform.DOKill();
+            planetInfoPanel.gameObject.SetActive(false);
+        }
 
         HideUI();
 
@@ -84,52 +88,44 @@ public class PlanetSelectionManager : MonoBehaviour
 
     public void OnPlanetShown()
     {
-       
+        RectTransform panel = planetInfoPanel.GetComponent<RectTransform>();
 
-        if (currentPlanet == null)
-            return;
+        // Stop any previous animations
+        panel.DOKill();
 
-        if (planetInfoPanel == null)
-        {
-            Debug.LogError("PlanetInfoPanel NOT assigned!");
+        // Enable panel first
+        planetInfoPanel.Show();
+        if (currentPlanet == null || planetInfoPanel == null)
             return;
-        }
 
         if (currentPlanet.Info == null)
         {
-            Debug.LogError(currentPlanet.name + " has NO PlanetInfoData!");
+            Debug.LogError(currentPlanet.name + " has no PlanetInfoData assigned.");
             return;
         }
 
-        planetInfoPanel.gameObject.SetActive(true);
+      
 
+        // Fill all texts BEFORE animation
         planetInfoPanel.SetData(currentPlanet.Info);
 
-        RectTransform panel = planetInfoPanel.GetComponent<RectTransform>();
-
-        if (panel == null)
-        {
-            Debug.LogError("RectTransform missing!");
-            return;
-        }
-
-        panel.localScale = Vector3.zero;
-        panel.DOScale(Vector3.one, .35f)
-            .SetEase(Ease.OutBack)
-            .OnComplete(() =>
-            {
-                ShowUI();
-            });
+        // Reset transform
+        panel.localScale = Vector3.one;
         panel.localRotation = Quaternion.Euler(0f, -90f, 0f);
-        panel
-            .DOLocalRotate(Vector3.zero, 0.45f)
-            .SetEase(Ease.OutBack)
-            .OnComplete(() =>
-            {
-                ShowUI();
-            });
-    }
 
+        Sequence seq = DOTween.Sequence();
+
+        seq.Append(
+            panel.DOLocalRotate(Vector3.zero, 0.45f)
+                .SetEase(Ease.OutBack)
+        );
+
+        seq.OnComplete(() =>
+        {
+            ShowUI();
+        });
+    }
+  
     //-------------------------------------------------------
     // Previous
     //-------------------------------------------------------
