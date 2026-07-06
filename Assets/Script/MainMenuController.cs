@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI.ProceduralImage;
+using Random = UnityEngine.Random;
 
 public class MainMenuController : MonoBehaviour
 {
+    public static MainMenuController instance;
     public bool isTesting;
     public SolarSystemCameraController solarSystemCameraController;
     [Header("Sound")]
@@ -50,6 +53,12 @@ across different planets.";
     private Transform mainMenuScene,solarSystemScene;
 
     [SerializeField] private Animation camera_Rig;
+
+    private void Awake()
+    {
+        instance =  this;
+    }
+
     private void Start()
     {
         if (isTesting) return;
@@ -269,4 +278,5 @@ across different planets.";
     
     
     #endregion
+    
 }

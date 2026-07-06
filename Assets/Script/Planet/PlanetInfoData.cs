@@ -3,6 +3,8 @@ using UnityEngine;
 [System.Serializable]
 public class PlanetInfoData
 {
+   
+    public PlanetType planetType;
     public string planetName;
     public string subTitle;
 

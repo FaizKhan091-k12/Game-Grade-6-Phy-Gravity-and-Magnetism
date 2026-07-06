@@ -174,7 +174,7 @@ public class PlanetSelectionManager : MonoBehaviour
     // Back
     //-------------------------------------------------------
 
-    void BackToSolarSystem()
+    public void BackToSolarSystem()
     {
         if (currentPlanet == null)
             return;
