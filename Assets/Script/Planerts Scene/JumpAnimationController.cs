@@ -3,6 +3,24 @@ using UnityEngine;
 
 public class JumpAnimationController : MonoBehaviour
 {
+    [System.Serializable]
+    public class SpeedProfile
+    {
+        [Header("Phase End Times (0-1)")]
+
+        [Range(0f, 1f)]
+        public float phase1End = 0.5f;
+
+        [Range(0f, 1f)]
+        public float phase2End = 0.83f;
+
+        [Header("Phase Speeds")]
+
+        public float phase1Speed = 1f;
+        public float phase2Speed = 1f;
+        public float phase3Speed = 1f;
+    }
+
     [Header("Animation Component")]
     [SerializeField] private Animation anim;
 
@@ -17,19 +35,45 @@ public class JumpAnimationController : MonoBehaviour
     [SerializeField] private string uranus = "Uranus";
     [SerializeField] private string neptune = "Neptune";
 
-    [Header("Animation Speeds")]
-    public float mercurySpeed = 1f;
-    public float venusSpeed = 1f;
-    public float earthSpeed = 1f;
-    public float marsSpeed = 1f;
-    public float jupiterSpeed = 1f;
-    public float saturnSpeed = 1f;
-    public float uranusSpeed = 1f;
-    public float neptuneSpeed = 1f;
+    [Header("Mercury")]
+    public SpeedProfile mercurySpeed = new SpeedProfile();
+
+    [Header("Venus")]
+    public SpeedProfile venusSpeed = new SpeedProfile();
+
+    [Header("Earth")]
+    public SpeedProfile earthSpeed = new SpeedProfile();
+
+    [Header("Mars")]
+    public SpeedProfile marsSpeed = new SpeedProfile();
+
+    [Header("Jupiter")]
+    public SpeedProfile jupiterSpeed = new SpeedProfile();
+
+    [Header("Saturn")]
+    public SpeedProfile saturnSpeed = new SpeedProfile();
+
+    [Header("Uranus")]
+    public SpeedProfile uranusSpeed = new SpeedProfile();
+
+    [Header("Neptune")]
+    public SpeedProfile neptuneSpeed = new SpeedProfile();
 
     private bool isJumping;
+    [SerializeField]
+    private PlanetJumpData[] jumpDatas;
+    private PlanetType currentPlanet;
+    PlanetJumpData GetData(PlanetType planet)
+    {
+        foreach(var d in jumpDatas)
+        {
+            if(d.planet == planet)
+                return d;
+        }
 
-    void Start()
+        return null;
+    }
+    private void Start()
     {
         anim.Play(idle);
     }
@@ -39,30 +83,78 @@ public class JumpAnimationController : MonoBehaviour
         if (isJumping)
             return;
 
+        currentPlanet = planet;
         StartCoroutine(JumpRoutine(planet));
     }
+    public void ShowHeightMarker()
+    {
+        PlanetJumpData data = GetData(currentPlanet);
 
+        MaxHeightUI.Instance.ShowHeight(data.maxHeight);
+    }
     IEnumerator JumpRoutine(PlanetType planet)
     {
         isJumping = true;
-
+     
+        PlanetJumpData data = GetData(planet);
+        if (data == null)
+        {
+           // Debug.LogError("PlanetJumpData is NULL for " + planet);
+            yield break;
+        }
+        //MaxHeightVisualizer.Instance.SaveGroundPoint();
+        MissionProgressManager.Instance.RegisterJump(
+            planet,
+            data.gravity,
+            data.maxHeight,
+            data.hangTime);
         string clip = GetClip(planet);
-        float speed = GetSpeed(planet);
 
-        anim[clip].speed = speed;
-
+        
         anim.Play(clip);
 
-        float wait = anim[clip].length / speed;
+       // Debug.Log("Clip = " + clip);
 
-        yield return new WaitForSeconds(wait);
+        AnimationState state = anim[clip];
+
+        if (state == null)
+        {
+           // Debug.LogError("Animation State NOT FOUND : " + clip);
+            yield break;
+        }
+
+        SpeedProfile profile = GetProfile(planet);
+        if (profile == null)
+        {
+            Debug.LogError("Speed Profile missing for " + planet);
+            yield break;
+        }
+        while (state.enabled && state.normalizedTime < 1f)
+        {
+            float t = state.normalizedTime;
+
+            if (t < profile.phase1End)
+            {
+                state.speed = profile.phase1Speed;
+            }
+            else if (t < profile.phase2End)
+            {
+                state.speed = profile.phase2Speed;
+            }
+            else
+            {
+                state.speed = profile.phase3Speed;
+            }
+
+            yield return null;
+        }
 
         anim.Play(idle);
-
+        MissionProgressManager.Instance.CompleteJump(currentPlanet);
         isJumping = false;
     }
 
-    string GetClip(PlanetType planet)
+    private string GetClip(PlanetType planet)
     {
         switch (planet)
         {
@@ -79,7 +171,7 @@ public class JumpAnimationController : MonoBehaviour
         return earth;
     }
 
-    float GetSpeed(PlanetType planet)
+    private SpeedProfile GetProfile(PlanetType planet)
     {
         switch (planet)
         {
@@ -93,6 +185,6 @@ public class JumpAnimationController : MonoBehaviour
             case PlanetType.Neptune: return neptuneSpeed;
         }
 
-        return 1f;
+        return earthSpeed;
     }
 }

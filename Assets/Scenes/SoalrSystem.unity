@@ -28723,9 +28723,9 @@ RectTransform:
   - {fileID: 571987149}
   m_Father: {fileID: 2057705960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 757.15, y: -516.4481}
   m_SizeDelta: {x: 1499.333, y: 73.9274}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &297715144
@@ -34775,9 +34775,9 @@ RectTransform:
   - {fileID: 822154781}
   m_Father: {fileID: 2057705960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 757.15, y: -594.6955}
   m_SizeDelta: {x: 1499.333, y: 73.9274}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &351860679
@@ -35968,9 +35968,9 @@ RectTransform:
   - {fileID: 575413717}
   m_Father: {fileID: 2057705960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 757.15, y: -281.7059}
   m_SizeDelta: {x: 1499.333, y: 73.9274}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &400028741
@@ -43891,9 +43891,9 @@ RectTransform:
   - {fileID: 1222520956}
   m_Father: {fileID: 2057705960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 757.15, y: -125.2111}
   m_SizeDelta: {x: 1499.333, y: 73.9274}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &547574297
@@ -57724,9 +57724,9 @@ RectTransform:
   - {fileID: 710800767}
   m_Father: {fileID: 2057705960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 757.15, y: -46.9637}
   m_SizeDelta: {x: 1499.333, y: 73.9274}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &773183373
@@ -72232,7 +72232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1014500148
 Transform:
   m_ObjectHideFlags: 0
@@ -84516,8 +84516,8 @@ RectTransform:
   m_GameObject: {fileID: 1164192179}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 553739146}
   m_Father: {fileID: 467570233}
@@ -84623,7 +84623,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1164192182}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 322028815}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: ReloadScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1168839587
 GameObject:
   m_ObjectHideFlags: 0
@@ -97023,9 +97035,9 @@ RectTransform:
   - {fileID: 751193098}
   m_Father: {fileID: 2057705960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 757.15, y: -203.4585}
   m_SizeDelta: {x: 1499.333, y: 73.9274}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1379256009
@@ -102669,9 +102681,9 @@ RectTransform:
   - {fileID: 2121591310}
   m_Father: {fileID: 2057705960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 757.15, y: -438.20068}
   m_SizeDelta: {x: 1499.333, y: 73.9274}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1453804157
@@ -107982,6 +107994,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1695919223}
         m_TargetAssemblyTypeName: PlanetSelectionManager, Assembly-CSharp
         m_MethodName: BackToSolarSystem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 322028815}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: OpenObservationTable
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -138164,9 +138188,9 @@ RectTransform:
   - {fileID: 1584108561}
   m_Father: {fileID: 2057705960}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 757.15, y: -359.9533}
   m_SizeDelta: {x: 1499.333, y: 73.9274}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2003963317
@@ -152273,7 +152297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &4531555537270225512
 MonoBehaviour:
   m_ObjectHideFlags: 0

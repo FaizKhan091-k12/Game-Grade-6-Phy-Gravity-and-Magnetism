@@ -105,6 +105,7 @@ public class PlanetTravelManager : MonoBehaviour
 
     public void BackToSolarSystem()
     {
+ 
         transitionImage.gameObject.SetActive(true);
 
         transitionImage.color =
@@ -114,6 +115,8 @@ public class PlanetTravelManager : MonoBehaviour
             .DOFade(1,fadeDuration)
             .OnComplete(() =>
             {
+                //MaxHeightVisualizer.Instance.Clear();
+                MaxHeightUI.Instance.ResetHeight();
                 jumpSceneContainer.SetActive(false);
 
                 solarSystemContainer.SetActive(true);
@@ -122,8 +125,10 @@ public class PlanetTravelManager : MonoBehaviour
                     .DOFade(0,fadeDuration)
                     .OnComplete(() =>
                     {
+                       
                         transitionImage.gameObject.SetActive(false);
                     });
             });
+    
     }
 }

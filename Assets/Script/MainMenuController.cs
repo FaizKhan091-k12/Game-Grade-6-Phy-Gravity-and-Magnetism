@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI.ProceduralImage;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -53,7 +54,8 @@ across different planets.";
     private Transform mainMenuScene,solarSystemScene;
 
     [SerializeField] private Animation camera_Rig;
-
+    [SerializeField] private Transform observationLogBtn;
+    [SerializeField] private Transform observationTable;
     private void Awake()
     {
         instance =  this;
@@ -63,7 +65,8 @@ across different planets.";
     {
         if (isTesting) return;
 
-
+        observationTable.localScale = Vector3.zero;
+        observationLogBtn.localScale = Vector3.zero;
         mainMenuScene.localScale = Vector3.one;
         solarSystemScene.gameObject.SetActive(false);
         
@@ -274,8 +277,25 @@ across different planets.";
     void ControlCamera()
     {
         solarSystemCameraController.enabled = true;
+        observationLogBtn.DOScale(Vector3.one, .25f).SetEase(Ease.OutBack);
+
     }
-    
+
+    public void OpenObservationTable()
+    {
+        observationTable.DOScale(Vector3.one, .5f).SetEase(Ease.OutBack);
+    }
+
+    public void CloseObservationTable()
+    {
+        observationTable.DOScale(Vector3.zero, .25f).SetEase(Ease.InBack);
+        
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene("SoalrSystem");
+    }
     
     #endregion
     
