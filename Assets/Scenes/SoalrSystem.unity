@@ -55646,8 +55646,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 42}
-  m_SizeDelta: {x: 928.4, y: 321.2}
+  m_AnchoredPosition: {x: 32, y: 13}
+  m_SizeDelta: {x: 992, y: 321.2}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &703932597
 MonoBehaviour:
@@ -55669,7 +55669,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Study how gravity changes astronaut movement across different planets.
+  m_text: Study how gravity changes astronaut movement across planets and complete
+    the observation log.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5da6a4abde56c13498839154928b9278, type: 2}
   m_sharedMaterial: {fileID: 6834701716701588585, guid: 5da6a4abde56c13498839154928b9278, type: 2}
@@ -72599,7 +72600,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1044038522}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -72611,7 +72612,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 244}
+  m_AnchoredPosition: {x: -0, y: 309}
   m_SizeDelta: {x: 1463.5, y: 604.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1044038524
@@ -137158,7 +137159,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983230891}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000002090575}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -137168,7 +137169,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00001254345, y: -600}
+  m_AnchoredPosition: {x: -0, y: -700}
   m_SizeDelta: {x: 622.5, y: 145.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1983230893
